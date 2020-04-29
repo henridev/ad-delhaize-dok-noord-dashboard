@@ -24,7 +24,7 @@ import {
   makeStyles,
   useTheme,
   BarChartIcon,
-  TextField
+  TextField,
 } from "../../modules/material";
 import { Button } from "../../modules/bootstrap";
 
@@ -47,7 +47,7 @@ function PersistentDrawerLeft(props) {
     setOpen(false);
   };
 
-  const handleRoute = name => {
+  const handleRoute = (name) => {
     console.log("handle", name, routemapping, routemapping[name]);
     props.history.push(`/${routemapping[name]}`);
   };
@@ -62,7 +62,7 @@ function PersistentDrawerLeft(props) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open
+          [classes.appBarShift]: open,
         })}
       >
         <Toolbar>
@@ -86,7 +86,7 @@ function PersistentDrawerLeft(props) {
         anchor="left"
         open={open}
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawerPaper,
         }}
       >
         <div className={classes.drawerHeader}>
@@ -139,23 +139,7 @@ function PersistentDrawerLeft(props) {
             );
           })}
         </List>
-        <Divider />
-        <List>
-          {[
-            "aanpassen broodjes",
-            "aanpassen afbeeldingen",
-            "aanpassen teksten"
-          ].map((text, index) => (
-            <ListItem button key={text} onClick={handleRoute.bind(this, text)}>
-              <ListItemIcon>
-                {index === 0 ? <EditIcon /> : null}
-                {index === 1 ? <EditIcon /> : null}
-                {index === 2 ? <EditIcon /> : null}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+
         <Divider />
         <List>
           {["uploaden kasboek"].map((text, index) => (
@@ -168,27 +152,10 @@ function PersistentDrawerLeft(props) {
           ))}
         </List>
         <Divider />
-        <div>
-          <TextField
-            style={{ marginTop: "10px" }}
-            id="outlined-basic"
-            label="adminpass"
-            variant="outlined"
-            value={new_text}
-            onChange={e => set_new_text(e.target.value)}
-          />
-          <Button
-            style={{ marginTop: "10px" }}
-            disabled={new_text.length > 5 ? false : true}
-            onClick={handleClick}
-          >
-            zend
-          </Button>
-        </div>
       </Drawer>
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open
+          [classes.contentShift]: open,
         })}
       >
         <div className={classes.drawerHeader} />
