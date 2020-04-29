@@ -1,0 +1,21 @@
+@import "./styles/App.scss";
+@import "./styles/Orders.scss";
+@import "./styles/Kasboek.scss";
+@import "./styles/Edit.scss";
+@import "./styles/Sandwich.scss";
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+// @import "bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "bestellingen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "echo --- preinstall --- && cd server && npm install && cd ../client && npm install && npm run build && cd ..",
+    "start": "echo --- start --- && cd server && npm run start",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm start"
+  },
+  "engines": {
+    "node": "12.15.0",
+    "npm": "6.13.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.2"
+  }
+}
