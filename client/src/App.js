@@ -13,12 +13,6 @@ export const ConfigContext = createContext();
 const configValue = {};
 
 function App() {
-  useEffect(() => {
-    const savedpass = window.localStorage.getItem("doknoordadminpass");
-    if (savedpass === "lifesgood") {
-      setAdminpass(true);
-    }
-  });
   return (
     <ConfigContext.Provider value={configValue}>
       <div className="App">
