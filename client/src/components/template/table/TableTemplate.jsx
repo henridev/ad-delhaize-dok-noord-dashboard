@@ -7,7 +7,7 @@ import {
   TableContainer,
   TablePagination,
   Paper,
-  makeStyles
+  makeStyles,
 } from "../../../modules/material";
 import EnhancedTableToolbar from "./TableToolbarTemplate";
 import EnhancedTableHead from "./TableHeadTemplate";
@@ -19,7 +19,7 @@ import ProgressSpinner from "../ProgressSpinner";
 import {
   getComparator,
   stableSort,
-  filterOutIds
+  filterOutIds,
 } from "../../../functions/functions";
 import apiOrders from "../../../api/orders";
 import apiKas from "../../../api/kasboek";
@@ -38,7 +38,7 @@ export default function TableTemplate(props) {
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(true);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   /* HANDLERS */
   const handleRequestSort = (event, orderColumn) => {
@@ -47,9 +47,9 @@ export default function TableTemplate(props) {
     setOrderBy(orderColumn);
   };
 
-  const handleSelectAllClick = event => {
+  const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map(n => n.id);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
     } else {
       setSelected([]);
@@ -78,30 +78,30 @@ export default function TableTemplate(props) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
   const handleDelete = () => {
     if (tableName === "kas") {
-      Promise.all(selected.map(id => apiKas.deleteKasboek(id)))
-        .then(v => {
+      Promise.all(selected.map((id) => apiKas.deleteKasboek(id)))
+        .then((v) => {
           console.log("all selection deleted");
-          setRows(rows.filter(row => !selected.includes(row.id)));
+          setRows(rows.filter((row) => !selected.includes(row.id)));
           setSelected([]);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     } else if (tableName === "orders") {
-      Promise.all(selected.map(id => apiOrders.deleteOrder(id)))
-        .then(v => {
+      Promise.all(selected.map((id) => apiOrders.deleteOrder(id)))
+        .then((v) => {
           console.log("all selection deleted");
-          setRows(rows.filter(row => !selected.includes(row.id)));
+          setRows(rows.filter((row) => !selected.includes(row.id)));
           setSelected([]);
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     }
@@ -109,7 +109,7 @@ export default function TableTemplate(props) {
 
   /* END HANDLERS */
 
-  const isSelected = name => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);

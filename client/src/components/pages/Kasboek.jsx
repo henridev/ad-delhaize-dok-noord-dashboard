@@ -13,105 +13,105 @@ const headCells = [
     id: "cheque_delhaize",
     numeric: true,
     disablePadding: false,
-    label: "cheque delhaize"
+    label: "cheque delhaize",
   },
   {
     id: "tegoebon",
     numeric: true,
     disablePadding: false,
-    label: "tegoedbon"
+    label: "tegoedbon",
   },
   {
     id: "publiciteitsbon",
     numeric: true,
     disablePadding: false,
-    label: "publiciteitsbon"
+    label: "publiciteitsbon",
   },
   {
     id: "leeggoedbon",
     numeric: true,
     disablePadding: false,
-    label: "leeggoedbon"
+    label: "leeggoedbon",
   },
   {
     id: "bancontact",
     numeric: true,
     disablePadding: false,
-    label: "bancontact"
+    label: "bancontact",
   },
   {
     id: "op_krediet",
     numeric: true,
     disablePadding: false,
-    label: "op krediet"
+    label: "op krediet",
   },
   {
     id: "andere",
     numeric: true,
     disablePadding: false,
-    label: "andere"
+    label: "andere",
   },
   {
     id: "amex",
     numeric: true,
     disablePadding: false,
-    label: "amex"
+    label: "amex",
   },
 
   {
     id: "visa",
     numeric: true,
     disablePadding: false,
-    label: "visa"
+    label: "visa",
   },
   {
     id: "mastercard",
     numeric: true,
     disablePadding: false,
-    label: "mastercard"
+    label: "mastercard",
   },
   {
     id: "maestro",
     numeric: true,
     disablePadding: false,
-    label: "maestro"
+    label: "maestro",
   },
   {
     id: "visa_electron",
     numeric: true,
     disablePadding: false,
-    label: "visa electron"
+    label: "visa electron",
   },
   {
     id: "payfair",
     numeric: true,
     disablePadding: false,
-    label: "payfair"
+    label: "payfair",
   },
   {
     id: "sodexo",
     numeric: true,
     disablePadding: false,
-    label: "sodexo"
+    label: "sodexo",
   },
   {
     id: "accordenred",
     numeric: true,
     disablePadding: false,
-    label: "accordenred"
+    label: "accordenred",
   },
   {
     id: "som_totaal",
     numeric: true,
     disablePadding: false,
-    label: "totaal"
+    label: "totaal",
   },
   {
     id: "verschil",
     numeric: true,
     disablePadding: false,
-    label: "verschil"
-  }
+    label: "verschil",
+  },
 ];
 
 const today = new Date();
@@ -120,26 +120,27 @@ const oneMonthBeforeToday = new Date().setMonth(today.getMonth() - 1);
 export default function Kasboek() {
   const [filterValues, setFilterValues] = useState({
     startDate: oneMonthBeforeToday,
-    endDate: today
+    endDate: today,
   });
   const [kasboek, setKasboek] = useState([]);
+
   useEffect(() => {
     api
       .getKasboek()
-      .then(res => {
+      .then((res) => {
         const rijen = res
-          .map(rij => {
+          .map((rij) => {
             rij.dateTypeDate = convertToDateType(rij);
             return rij;
           })
           .sort(filterRowOnDate);
         setKasboek(rijen);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
     return () => {};
   }, []);
 
-  const convertToDateType = rij => {
+  const convertToDateType = (rij) => {
     const dateParts = rij.datum.split(" ")[1].split("/");
     return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
   };
@@ -184,7 +185,7 @@ export default function Kasboek() {
       <TableTemplate
         rows={kasboek}
         setRows={setKasboek}
-        orderbyName="datum"
+        orderbyColumn="datum"
         tableName="kas"
         headCells={headCells}
       ></TableTemplate>
