@@ -33,7 +33,7 @@ export default function TableTemplate(props) {
   const { rows, orderbyColumn, tableName, headCells, setRows } = props;
 
   /* states */
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState(orderbyColumn);
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);

@@ -122,31 +122,55 @@ export default function Kasboek() {
     startDate: oneMonthBeforeToday,
     endDate: today,
   });
-  const [kasboek, setKasboek] = useState([]);
+  const [fullkasboek, setFullKasboek] = useState([]);
+  const [filteredkasboek, setFilteredKasboek] = useState([]);
 
-  useEffect(() => {
-    api
-      .getKasboek()
-      .then((res) => {
-        const rijen = res
-          .map((rij) => {
-            rij.dateTypeDate = convertToDateType(rij);
-            return rij;
-          })
-          .sort(filterRowOnDate);
-        setKasboek(rijen);
-      })
-      .catch((err) => console.log(err));
+  useEffect(async () => {
+    const rijen = await api.getKasboek();
+    rijen.map((rij) => {
+      rij.dateTypeDate = convertToDateType(rij);
+      return rij;
+    });
+    setFilteredKasboek(rijen.filter(filterDates));
+    setFullKasboek(rijen);
     return () => {};
   }, []);
+
+  useEffect(() => {
+    setFilteredKasboek(fullkasboek.filter(filterDates));
+    return () => {};
+  }, [filterValues]);
+
+  //#region Date Functions
 
   const convertToDateType = (rij) => {
     const dateParts = rij.datum.split(" ")[1].split("/");
     return new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
   };
 
-  const filterRowOnDate = (A, B) => {
-    const newestFirst = true;
+  var date_diff_indays = function (dt1, dt2) {
+    if (typeof dt1 !== Date) {
+      dt1 = new Date(dt1);
+    }
+    if (typeof dt2 !== Date) {
+      dt2 = new Date(dt2);
+    }
+    return Math.floor(
+      (Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) -
+        Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
+        (1000 * 60 * 60 * 24)
+    );
+  };
+
+  const filterDates = ({ dateTypeDate }) => {
+    return (
+      date_diff_indays(dateTypeDate, filterValues.endDate) >= 0 &&
+      date_diff_indays(dateTypeDate, filterValues.startDate) <= 0
+    );
+  };
+
+  const sortRowOnDate = (A, B) => {
+    const newestFirst = false;
     A = Number(A.dateTypeDate);
     B = Number(B.dateTypeDate);
     if (A < B) {
@@ -158,13 +182,16 @@ export default function Kasboek() {
     return 0;
   };
 
+  //#endregion Date Functions
+
   const handleDownload = () => {
-    console.log("filterValues", filterValues);
-    const rowsToExport = kasboek.filter(
-      ({ dateTypeDate }) =>
-        dateTypeDate < filterValues.endDate &&
-        dateTypeDate > filterValues.startDate
-    );
+    const rowsToExport = filteredkasboek
+      .filter(
+        ({ dateTypeDate }) =>
+          dateTypeDate < filterValues.endDate &&
+          dateTypeDate > filterValues.startDate
+      )
+      .sort(sortRowOnDate);
     const allowedColumns = headCells.map(({ id }) => id);
     createCSVfromJSON(rowsToExport, allowedColumns);
   };
@@ -183,8 +210,8 @@ export default function Kasboek() {
         </Fab>
       </Filter>
       <TableTemplate
-        rows={kasboek}
-        setRows={setKasboek}
+        rows={filteredkasboek}
+        setRows={setFilteredKasboek}
         orderbyColumn="datum"
         tableName="kas"
         headCells={headCells}
